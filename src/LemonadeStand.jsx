@@ -19,7 +19,9 @@ const prettyNumber = (number) => {
   return Math.round(number * 100) / 100;
 };
 
-const FancyButton = (props) => (  //this line given/taught to me by my friend
+const FancyButton = (
+  props //this line given/taught to me by my friend
+) => (
   <button
     // className="bg-primary text-white rounded-md px-4 py-2 disabled:bg-primary/50 hover:bg-primary/90"
     {...props}
@@ -27,18 +29,27 @@ const FancyButton = (props) => (  //this line given/taught to me by my friend
 );
 
 export default function App() {
-  const [money, setMoney] = useState(parseInt(localStorage.getItem('money'))||0);
+  const [money, setMoney] = useState(
+    parseInt(localStorage.getItem("money")) || 0
+  );
   const [lemonadeStands, setLemonadeStands] = useState(0);
   const [newspaperStands, setNewspaperStands] = useState(0);
-  
-useEffect(() => {
-  localStorage.setMoney("money",JSON.stringify(money));
-  localStorage.setLemonadeStands("LemsetLemonadeStands",JSON.stringify(money));
-  localStorage.setNewspaperStands("NewspaperStands",JSON.stringify(money));
-},[money])
+  const [carwashes, setCarwashes] = useState(0);
 
   useEffect(() => {
-   
+    localStorage.setMoney("money", JSON.stringify(money));
+    localStorage.setLemonadeStands(
+      "LemsetLemonadeStands",
+      JSON.stringify(lemonadeStands)
+    );
+    localStorage.setNewspaperStands(
+      "NewspaperStands",
+      JSON.stringify(newspaperStands)
+    );
+    localStorage.setCarwashes("Carwashes", JSON.stringify(carwashes));
+  }, [money, lemonadeStands, newspaperStands, carwashes]);
+
+  useEffect(() => {
     const gameIntervalDuration = 1000;
     const durationRatio = 100;
     const gameSpeed = gameIntervalDuration / durationRatio;
@@ -54,11 +65,9 @@ useEffect(() => {
           durationRatio /
           NEWSPAPER_TIME_MULTIPLIER;
         const carwashProfit =
-          (carwashes * CARWASH_VALUE) /
-          durationRatio /
-          CARWASH_TIME_MULTIPLIER;
+          (carwashes * CARWASH_VALUE) / durationRatio / CARWASH_TIME_MULTIPLIER;
 
-        return currentMoney + lemonadeProfit + newspaperProfit;
+        return currentMoney + lemonadeProfit + newspaperProfit + carwashProfit;
       });
     }, gameSpeed);
 
@@ -78,8 +87,7 @@ useEffect(() => {
   const newspaperStandCost =
     NEWSPAPER_STAND_COST * NEWSPAPER_COEFFICIENT ** newspaperStands;
 
-  const carwashesCost =
-    CARWASH_COST * CARWASH_COEFFICIENT ** carwashes;
+  const carwashesCost = CARWASH_COST * CARWASH_COEFFICIENT ** carwashes;
 
   return (
     <div className="flex flex-col gap-2 p-2 select-none">
@@ -109,7 +117,7 @@ useEffect(() => {
 
       <div className="flex flex-row gap-2">
         <FancyButton
-        disabled={NEWSPAPER_STAND_COST > money}
+          disabled={NEWSPAPER_STAND_COST > money}
           onClick={() => {
             setMoney((money) => money + NEWSPAPER_VALUE);
           }}
@@ -128,7 +136,7 @@ useEffect(() => {
       </div>
       <div className="flex flex-row gap-2">
         <FancyButton
-        disabled={CARWASH_COST > money}
+          disabled={CARWASH_COST > money}
           onClick={() => {
             setMoney((money) => money + CARWASH_VALUE);
           }}
@@ -136,16 +144,15 @@ useEffect(() => {
           Sell Car washes
         </FancyButton>
         <FancyButton
-          disabled={newspaperStandCost > money}
+          disabled={carwashesCost > money}
           onClick={() => {
-            setMoney((money) => money - newspaperStandCost);
-            setNewspaperStands((stand) => stand + 1);
+            setMoney((money) => money - carwashesCost);
+            setCarwashes((stand) => stand + 1);
           }}
         >
-          Buy Carwashes £{prettyNumber(newspaperStandCost)}
+          Buy Carwashes £{prettyNumber(carwashesCost)}
         </FancyButton>
       </div>
     </div>
   );
 }
-
