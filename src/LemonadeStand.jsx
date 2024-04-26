@@ -37,16 +37,16 @@ export default function App() {
   const [carwashes, setCarwashes] = useState(0);
 
   useEffect(() => {
-    localStorage.setMoney("money", JSON.stringify(money));
-    localStorage.setLemonadeStands(
-      "LemsetLemonadeStands",
+    localStorage.setItem("money", JSON.stringify(money));
+    localStorage.setItem(
+      "LemonadeStands",
       JSON.stringify(lemonadeStands)
     );
-    localStorage.setNewspaperStands(
+    localStorage.setItem(
       "NewspaperStands",
       JSON.stringify(newspaperStands)
     );
-    localStorage.setCarwashes("Carwashes", JSON.stringify(carwashes));
+    localStorage.setItem("Carwashes", JSON.stringify(carwashes));
   }, [money, lemonadeStands, newspaperStands, carwashes]);
 
   useEffect(() => {
