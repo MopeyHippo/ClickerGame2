@@ -15,6 +15,16 @@ const CARWASH_COST = 720;
 const CARWASH_COEFFICIENT = 1.14;
 const CARWASH_TIME_MULTIPLIER = 6;
 
+const PIZZA_DELIVERY_VALUE = 4320;
+const PIZZA_DELIVERY_COST = 8640;
+const PIZZA_DELIVERY_COEFFICIENT = 1.13;
+const PIZZA_DELIVERY_TIME_MULTIPLIER = 12;
+
+const DONUT_SHOP_VALUE = 51840;
+const DONUT_SHOP_COST = 103680;
+const DONUT_SHOP_COEFFICIENT = 1.12;
+const DONUT_SHOP_TIME_MULTIPLIER = 24;
+
 const prettyNumber = (number) => {
   return Math.round(number * 100) / 100;
 };
@@ -32,22 +42,42 @@ export default function App() {
   const [money, setMoney] = useState(
     parseInt(localStorage.getItem("money")) || 0
   );
-  const [lemonadeStands, setLemonadeStands] = useState(0);
-  const [newspaperStands, setNewspaperStands] = useState(0);
-  const [carwashes, setCarwashes] = useState(0);
+  const [lemonadeStands, setLemonadeStands] = useState(
+    parseInt(localStorage.getItem("lemonadeStands")) || 0
+  );
+  const [newspaperStands, setNewspaperStands] = useState(
+    parseInt(localStorage.getItem("newspaperStands")) || 0
+  );
+  const [carWashes, setCarwashes] = useState(
+    parseInt(localStorage.getItem("carWashes")) || 0
+  );
+  const [pizzaDelivery, setPizzadelivery] = useState(
+    parseInt(localStorage.getItem("pizzaDelivery")) || 0
+  );
+  const [donutShop, setDonutshop] = useState(
+    parseInt(localStorage.getItem("donutShop")) || 0
+  );
 
   useEffect(() => {
     localStorage.setItem("money", JSON.stringify(money));
     localStorage.setItem(
-      "LemonadeStands",
+      "lemonadeStands",
       JSON.stringify(lemonadeStands)
     );
     localStorage.setItem(
-      "NewspaperStands",
+      "newspaperStands",
       JSON.stringify(newspaperStands)
     );
-    localStorage.setItem("Carwashes", JSON.stringify(carwashes));
-  }, [money, lemonadeStands, newspaperStands, carwashes]);
+    localStorage.setItem(
+      "carWashes", 
+      JSON.stringify(carWashes));
+    localStorage.setItem(
+      "pizzaDelivery", 
+      JSON.stringify(pizzaDelivery));
+    localStorage.setItem(
+      "donutShop", 
+      JSON.stringify(donutShop));
+  }, [money, lemonadeStands, newspaperStands, carWashes, pizzaDelivery, donutShop]);
 
   useEffect(() => {
     const gameIntervalDuration = 1000;
@@ -65,9 +95,19 @@ export default function App() {
           durationRatio /
           NEWSPAPER_TIME_MULTIPLIER;
         const carwashProfit =
-          (carwashes * CARWASH_VALUE) / durationRatio / CARWASH_TIME_MULTIPLIER;
+          (carWashes * CARWASH_VALUE) / 
+          durationRatio / 
+          CARWASH_TIME_MULTIPLIER;
+        const pizzadeliveryProfit =
+          (pizzaDelivery * PIZZA_DELIVERY_VALUE) / 
+          durationRatio / 
+          PIZZA_DELIVERY_TIME_MULTIPLIER;
+        const donutshopProfit =
+          (donutShop * DONUT_SHOP_VALUE) / 
+          durationRatio / 
+          DONUT_SHOP_TIME_MULTIPLIER;
 
-        return currentMoney + lemonadeProfit + newspaperProfit + carwashProfit;
+        return currentMoney + lemonadeProfit + newspaperProfit + carwashProfit + pizzadeliveryProfit + donutshopProfit;
       });
     }, gameSpeed);
 
@@ -78,7 +118,9 @@ export default function App() {
     // LEMONADE_VALUE,
     newspaperStands,
     // NEWSPAPER_VALUE,
-    carwashes,
+    carWashes,
+    pizzaDelivery,
+    donutShop,
   ]);
 
   const lemonadeStandCost =
@@ -87,14 +129,20 @@ export default function App() {
   const newspaperStandCost =
     NEWSPAPER_STAND_COST * NEWSPAPER_COEFFICIENT ** newspaperStands;
 
-  const carwashesCost = CARWASH_COST * CARWASH_COEFFICIENT ** carwashes;
+  const carwashesCost = CARWASH_COST * CARWASH_COEFFICIENT ** carWashes;
+
+  const pizzaDeliveryCost = PIZZA_DELIVERY_COST * PIZZA_DELIVERY_COEFFICIENT ** pizzaDelivery;
+
+  const donutShopCost = DONUT_SHOP_COST * DONUT_SHOP_COEFFICIENT ** donutShop;
 
   return (
     <div className="flex flex-col gap-2 p-2 select-none">
       <div>money: £{prettyNumber(money)}</div>
       <div>Lemonade Stands: {lemonadeStands}</div>
       <div>Newspaper Stands: {newspaperStands}</div>
-      <div>Car Washes: {carwashes}</div>
+      <div>Car Washes: {carWashes}</div>
+      <div>Pizza Delivery: {pizzaDelivery}</div>
+      <div>Donut Shop: {donutShop}</div>
 
       <div className="flex flex-row gap-2">
         <FancyButton
@@ -150,7 +198,45 @@ export default function App() {
             setCarwashes((stand) => stand + 1);
           }}
         >
-          Buy Carwashes £{prettyNumber(carwashesCost)}
+          Buy Car Washes £{prettyNumber(carwashesCost)}
+        </FancyButton>
+      </div>
+      <div className="flex flex-row gap-2">
+        <FancyButton
+          disabled={PIZZA_DELIVERY_COST > money}
+          onClick={() => {
+            setMoney((money) => money + PIZZA_DELIVERY_VALUE);
+          }}
+        >
+          Sell Pizza Delivery
+        </FancyButton>
+        <FancyButton
+          disabled={pizzaDeliveryCost > money}
+          onClick={() => {
+            setMoney((money) => money - pizzaDeliveryCost);
+            setPizzadelivery((stand) => stand + 1);
+          }}
+        >
+          Buy Pizza Delivery £{prettyNumber(pizzaDeliveryCost)}
+        </FancyButton>
+      </div>
+      <div className="flex flex-row gap-2">
+        <FancyButton
+          disabled={PIZZA_DELIVERY_COST > money}
+          onClick={() => {
+            setMoney((money) => money + PIZZA_DELIVERY_VALUE);
+          }}
+        >
+          Sell Donut Shop
+        </FancyButton>
+        <FancyButton
+          disabled={donutShopCost > money}
+          onClick={() => {
+            setMoney((money) => money - donutShopCost);
+            setDonutshop((stand) => stand + 1);
+          }}
+        >
+          Buy Donut Shop £{prettyNumber(donutShopCost)}
         </FancyButton>
       </div>
     </div>
