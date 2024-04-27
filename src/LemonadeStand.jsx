@@ -26,7 +26,7 @@ const DONUT_SHOP_COEFFICIENT = 1.12;
 const DONUT_SHOP_TIME_MULTIPLIER = 24;
 
 const prettyNumber = (number) => {
-  return Math.round(number * 100) / 100;
+  return Math.round(number * 100) / 100; //formula to return a number to 2 decimal places
 };
 
 const FancyButton = (
@@ -39,7 +39,7 @@ const FancyButton = (
 );
 
 export default function App() {
-  const [money, setMoney] = useState(
+  const [money, setMoney] = useState(  
     parseInt(localStorage.getItem("money")) || 0
   );
   const [lemonadeStands, setLemonadeStands] = useState(
@@ -80,9 +80,9 @@ export default function App() {
   }, [money, lemonadeStands, newspaperStands, carWashes, pizzaDelivery, donutShop]);
 
   useEffect(() => {
-    const gameIntervalDuration = 1000;
-    const durationRatio = 100;
-    const gameSpeed = gameIntervalDuration / durationRatio;
+    const gameIntervalDuration = 1000; //This constant defines the duration of the game interval in milliseconds.
+    const durationRatio = 100; //his constant represents a ratio used for scaling the game speed. It seems like a factor used to adjust the speed of the game logic or animations relative to real-time. The specific meaning of this ratio would depend on the context of the game.
+    const gameSpeed = gameIntervalDuration / durationRatio; //This line calculates the gameSpeed by dividing the gameIntervalDuration by the durationRatio. This calculation results in a value that determines how frequently game updates occur or how fast certain game actions take place relative to real-time. In this case, it suggests that the game's speed will be 10 times faster than real-time, assuming the gameIntervalDuration is 1000 milliseconds (1 second) and the durationRatio is 100.
 
     const timer = setInterval(() => {
       setMoney((currentMoney) => {
@@ -126,8 +126,14 @@ export default function App() {
   const lemonadeStandCost =
     LEMONADE_STAND_COST * LEMONADE_COEFFICIENT ** lemonadeStands;
 
+  const lemonadeStandWorth =
+  LEMONADE_TIME_MULTIPLIER * LEMONADE_COEFFICIENT ** lemonadeStands;
+
   const newspaperStandCost =
     NEWSPAPER_STAND_COST * NEWSPAPER_COEFFICIENT ** newspaperStands;
+
+    const newspaperStandWorth = 
+    newspaperStandCost * NEWSPAPER_COEFFICIENT ** newspaperStands;
 
   const carwashesCost = CARWASH_COST * CARWASH_COEFFICIENT ** carWashes;
 
@@ -150,7 +156,7 @@ export default function App() {
             setMoney((money) => money + LEMONADE_VALUE);
           }}
         >
-          Sell Lemonade
+          Sell lemonade £{prettyNumber(lemonadeStandWorth)}
         </FancyButton>
         <FancyButton
           disabled={lemonadeStandCost > money}
@@ -170,7 +176,7 @@ export default function App() {
             setMoney((money) => money + NEWSPAPER_VALUE);
           }}
         >
-          Sell Papers
+          Sell Papers £{prettyNumber(newspaperStandWorth)}
         </FancyButton>
         <FancyButton
           disabled={newspaperStandCost > money}
