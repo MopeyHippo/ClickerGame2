@@ -12,6 +12,7 @@ const investments = [
   },
   {
     name: "Newspaper Stand",
+    action: "sell NewsPapers",
     value: 45,
     cost: 60,
     coefficient: 1.15,
@@ -20,6 +21,7 @@ const investments = [
   },
   {
     name: "Car Wash",
+    action: "Wash Cars",
     value: 540,
     cost: 720,
     coefficient: 1.14,
@@ -28,6 +30,7 @@ const investments = [
   },
   {
     name: "Pizza Delivery",
+    action: "Sell Pizzas",
     value: 4320,
     cost: 8640,
     coefficient: 1.13,
@@ -36,6 +39,7 @@ const investments = [
   },
   {
     name: "Donut Shop",
+    action: "Sell Donuts",
     value: 51840,
     cost: 103680,
     coefficient: 1.12,
@@ -44,40 +48,61 @@ const investments = [
   },
   {
     name: "Shrimp Boat",
+    action: "Sell Shrimp",
     value: 622080,
     cost: 1244160,
     coefficient: 1.11,
     timeMultiplier: 96,
     quantity: 0,
   },
-{
-  name: "Hockey Team",
-  value: 7464960,
-  cost: 14929920,
-  coefficient: 1.10,
-  timeMultiplier: 384,
-  quantity: 0,
-},
-{
-  name: "Movie Studio",
-  value: 89579520,
-  cost: 14929920,
-  coefficient: 1.09,
-  timeMultiplier: 1536,
-  quantity: 0,
-},
+  {
+    name: "Hockey Team",
+    action: "Sell Hockey Game Tickets",
+    value: 7464960,
+    cost: 14929920,
+    coefficient: 1.1,
+    timeMultiplier: 384,
+    quantity: 0,
+  },
+  {
+    name: "Movie Studio",
+    action: "Sell Movies",
+    value: 89579520,
+    cost: 179159040,
+    coefficient: 1.09,
+    timeMultiplier: 1536,
+    quantity: 0,
+  },
+  {
+    name: "Bank",
+    action: "Bank Money",
+    value: 1074954240,
+    cost: 2149908480,
+    coefficient: 1.08,
+    timeMultiplier: 6144,
+    quantity: 0,
+  },
+  {
+    name: "Oil Company",
+    action: "Mine For Oil",
+    value: 29668737024,
+    cost: 25798901760,
+    coefficient: 1.07,
+    timeMultiplier: 36864,
+    quantity: 0,
+  },
 ];
 
 const prettyNumber = (number) => {
   return Math.round(number * 100) / 100;
 };
 
-const FancyButton = (props) => (
-  <button {...props} />
-);
+const FancyButton = (props) => <button {...props} />;
 
 export default function App() {
-  const [money, setMoney] = useState(parseInt(localStorage.getItem("money")) || 0);
+  const [money, setMoney] = useState(
+    parseInt(localStorage.getItem("money")) || 0
+  );
   const [investmentsState, setInvestmentsState] = useState(
     investments.map((investment) => ({
       ...investment,
@@ -88,7 +113,10 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("money", JSON.stringify(money));
     investmentsState.forEach((investment) => {
-      localStorage.setItem(investment.name, JSON.stringify(investment.quantity));
+      localStorage.setItem(
+        investment.name,
+        JSON.stringify(investment.quantity)
+      );
     });
   }, [money, investmentsState]);
 
@@ -120,14 +148,13 @@ export default function App() {
       const newState = [...prevState];
       newState[index].quantity += 1;
       newState[index].cost =
-       prevState[index].cost * prevState[index].coefficient
+        prevState[index].cost * prevState[index].coefficient;
       return newState;
     });
   };
 
   const handleSell = (index) => {
     setMoney((currentMoney) => currentMoney + investmentsState[index].value);
-    
   };
 
   return (
@@ -145,12 +172,14 @@ export default function App() {
             disabled={index !== 0 && investment.quantity === 0}
             onClick={() => handleSell(index)}
           >
-             {investment.action} £{prettyNumber(investment.value)}
+            {investment.action} £{prettyNumber(investment.value)}
           </FancyButton>
-          <div>{investment.name}: {investment.quantity}</div>
+          <div>
+            {investment.name}: {investment.quantity}
+          </div>
         </div>
       ))}
-      {/* <button onClick ={() => localStorage.clear()}>reset</button> */}
+      {/* <button onClick ={() => localStorage.clear()}>reset</button>    */}
     </div>
   );
 }
