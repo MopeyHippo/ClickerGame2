@@ -1,0 +1,29 @@
+body {
+    font-family: "Roboto", sans-serif; /* Use Roboto font family */
+    background-color: tomato; /* Basic background color */
+  }
+  
+  .flex {
+    display: flex;
+  }
+  
+  .flex-col {
+    flex-direction: column;
+  }
+  
+  .gap-2 > * + * {
+    margin-left: 0.5rem;
+  }
+  
+  .p-2 {
+    padding: 0.5rem;
+  }
+  
+  .select-none {
+    user-select: none;
+
+    button {
+        border-radius: 0.25rem; /* Rounded corners */
+        padding: 0.5rem 1rem; /* Add padding for better visual */
+      }
+  }
