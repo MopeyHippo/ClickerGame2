@@ -21,9 +21,13 @@ body {
   
   .select-none {
     user-select: none;
-
-    button {
-        border-radius: 0.25rem; /* Rounded corners */
-        padding: 0.5rem 1rem; /* Add padding for better visual */
-      }
+  }
+  
+  /* Rounded button styles */
+  button {
+    border-radius: 0.25rem; /* Rounded corners */
+    padding: 0.5rem 1rem; /* Add padding for better visual */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
