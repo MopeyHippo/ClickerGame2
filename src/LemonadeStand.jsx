@@ -5,7 +5,7 @@ const LEMONADE_STAND_COST = 3.738; // inital cost from which scaling is based
 const LEMONADE_COEFFICIENT = 1.07; // coefficient for the scaling
 const LEMONADE_TIME_MULTIPLIER = 0.6; // how often currencey is earned
 
-const NEWSPAPER_VALUE = 60;
+const NEWSPAPER_VALUE = 45;
 const NEWSPAPER_STAND_COST = 60;
 const NEWSPAPER_COEFFICIENT = 1.15;
 const NEWSPAPER_TIME_MULTIPLIER = 3;
@@ -70,13 +70,16 @@ export default function App() {
     );
     localStorage.setItem(
       "carWashes", 
-      JSON.stringify(carWashes));
+      JSON.stringify(carWashes)
+    );
     localStorage.setItem(
       "pizzaDelivery", 
-      JSON.stringify(pizzaDelivery));
+      JSON.stringify(pizzaDelivery)
+    );
     localStorage.setItem(
       "donutShop", 
-      JSON.stringify(donutShop));
+      JSON.stringify(donutShop)
+    );
   }, [money, lemonadeStands, newspaperStands, carWashes, pizzaDelivery, donutShop]);
 
   useEffect(() => {
@@ -115,9 +118,7 @@ export default function App() {
   }, [
     setMoney,
     lemonadeStands,
-    // LEMONADE_VALUE,
     newspaperStands,
-    // NEWSPAPER_VALUE,
     carWashes,
     pizzaDelivery,
     donutShop,
@@ -127,19 +128,31 @@ export default function App() {
     LEMONADE_STAND_COST * LEMONADE_COEFFICIENT ** lemonadeStands;
 
   const lemonadeStandWorth =
-  LEMONADE_TIME_MULTIPLIER * LEMONADE_COEFFICIENT ** lemonadeStands;
+  LEMONADE_VALUE * LEMONADE_COEFFICIENT ** lemonadeStands;
 
   const newspaperStandCost =
     NEWSPAPER_STAND_COST * NEWSPAPER_COEFFICIENT ** newspaperStands;
 
     const newspaperStandWorth = 
-    newspaperStandCost * NEWSPAPER_COEFFICIENT ** newspaperStands;
+    NEWSPAPER_VALUE * NEWSPAPER_COEFFICIENT ** newspaperStands;
 
-  const carwashesCost = CARWASH_COST * CARWASH_COEFFICIENT ** carWashes;
+  const carwashesCost = 
+  CARWASH_COST * CARWASH_COEFFICIENT ** carWashes;
 
-  const pizzaDeliveryCost = PIZZA_DELIVERY_COST * PIZZA_DELIVERY_COEFFICIENT ** pizzaDelivery;
+  const carwashesWorth = 
+  CARWASH_VALUE * CARWASH_COEFFICIENT ** carWashes
 
-  const donutShopCost = DONUT_SHOP_COST * DONUT_SHOP_COEFFICIENT ** donutShop;
+  const pizzaDeliveryCost =
+   PIZZA_DELIVERY_COST * PIZZA_DELIVERY_COEFFICIENT ** pizzaDelivery;
+
+   const pizzaDeliveryWorth =
+   PIZZA_DELIVERY_VALUE * PIZZA_DELIVERY_COEFFICIENT ** pizzaDelivery
+
+  const donutShopCost = 
+  DONUT_SHOP_COST * DONUT_SHOP_COEFFICIENT ** donutShop;
+
+  const donutShopWorth =
+  DONUT_SHOP_VALUE * DONUT_SHOP_COEFFICIENT ** donutShop
 
   return (
     <div className="flex flex-col gap-2 p-2 select-none">
@@ -195,7 +208,7 @@ export default function App() {
             setMoney((money) => money + CARWASH_VALUE);
           }}
         >
-          Sell Car washes
+          Sell Car washes £{prettyNumber(carwashesWorth)}
         </FancyButton>
         <FancyButton
           disabled={carwashesCost > money}
@@ -214,7 +227,7 @@ export default function App() {
             setMoney((money) => money + PIZZA_DELIVERY_VALUE);
           }}
         >
-          Sell Pizza Delivery
+          Sell Pizza Delivery £{prettyNumber(pizzaDeliveryWorth)}
         </FancyButton>
         <FancyButton
           disabled={pizzaDeliveryCost > money}
@@ -233,7 +246,7 @@ export default function App() {
             setMoney((money) => money + PIZZA_DELIVERY_VALUE);
           }}
         >
-          Sell Donut Shop
+          Sell Donut Shop £{prettyNumber(donutShopWorth)}
         </FancyButton>
         <FancyButton
           disabled={donutShopCost > money}
