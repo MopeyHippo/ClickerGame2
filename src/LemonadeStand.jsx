@@ -25,6 +25,31 @@ const DONUT_SHOP_COST = 103680;
 const DONUT_SHOP_COEFFICIENT = 1.12;
 const DONUT_SHOP_TIME_MULTIPLIER = 24;
 
+const SHRIMP_BOAT_VALUE = 622080;
+const SHRIMP_BOAT_COST = 1244160;
+const SHRIMP_BOAT_COEFFICIENT = 1.11;
+const SHRIMP_BOAT_TIME_MULTIPLIER = 96;
+
+const HOCKEY_TEAM_VALUE = 7464960;
+const HOCKEY_TEAM_COST = 14929920;
+const HOCKEY_TEAM_COEFFICIENT = 1.10;
+const HOCKEY_TEAM_TIME_MULTIPLIER = 384;
+
+const MOVIE_STUDIO_VALUE = 89579520;
+const MOVIE_STUDIO_COST = 179159040;
+const MOVIE_STUDIO_COEFFICIENT = 1.09;
+const MOVIE_STUDIO_TIME_MULTIPLIER = 1536;
+
+const BANK_VALUE = 1074954240;
+const BANK_COST = 2149908480;
+const BANK_COEFFICIENT = 1.08;
+const BANK_TIME_MULTIPLIER = 6144;
+
+const OIL_COMPANY_VALUE = 29668737024;
+const OIL_COMPANY_COST = 25798901760;
+const OIL_COMPANY_COEFFICIENT = 1.07;
+const OIL_COMPANY_TIME_MULTIPLIER = 36864;
+
 const prettyNumber = (number) => {
   return Math.round(number * 100) / 100; //formula to return a number to 2 decimal places
 };
@@ -57,6 +82,21 @@ export default function App() {
   const [donutShop, setDonutshop] = useState(
     parseInt(localStorage.getItem("donutShop")) || 0
   );
+  const [shrimpBoat, setShrimpboat] = useState(
+    parseInt(localStorage.getItem("shrimpBoat")) || 0
+  );
+  const [hockeyTeam, setHockeyteam] = useState(
+    parseInt(localStorage.getItem("hockeyTeam")) || 0
+  );
+  const [movieStudio, setMoviestudio] = useState(
+    parseInt(localStorage.getItem("movieStudio")) || 0
+  );
+  const [bank, setBank] = useState(
+    parseInt(localStorage.getItem("bank")) || 0
+  );
+  const [oilCompany, setOilcompany] = useState(
+    parseInt(localStorage.getItem("oilCompany")) || 0
+  );
 
   useEffect(() => {
     localStorage.setItem("money", JSON.stringify(money));
@@ -80,7 +120,27 @@ export default function App() {
       "donutShop", 
       JSON.stringify(donutShop)
     );
-  }, [money, lemonadeStands, newspaperStands, carWashes, pizzaDelivery, donutShop]);
+    localStorage.setItem(
+      "shrimpBoat", 
+      JSON.stringify(shrimpBoat)
+    );
+    localStorage.setItem(
+      "hockeyTeam", 
+      JSON.stringify(hockeyTeam)
+    );
+    localStorage.setItem(
+      "movieStudio", 
+      JSON.stringify(movieStudio)
+    );
+    localStorage.setItem(
+      "bank", 
+      JSON.stringify(bank)
+    );
+    localStorage.setItem(
+      "oilCompany", 
+      JSON.stringify(oilCompany)
+    );
+  }, [money, lemonadeStands, newspaperStands, carWashes, pizzaDelivery, donutShop, shrimpBoat, hockeyTeam, movieStudio, bank, oilCompany]);
 
   useEffect(() => {
     const gameIntervalDuration = 1000; //This constant defines the duration of the game interval in milliseconds.
@@ -109,8 +169,28 @@ export default function App() {
           (donutShop * DONUT_SHOP_VALUE) / 
           durationRatio / 
           DONUT_SHOP_TIME_MULTIPLIER;
+        const shrimpboatProfit =
+          (shrimpBoat * SHRIMP_BOAT_VALUE) / 
+          durationRatio / 
+          SHRIMP_BOAT_TIME_MULTIPLIER;
+        const hockeyTeamProfit =
+          (hockeyTeam * HOCKEY_TEAM_VALUE) / 
+          durationRatio / 
+          HOCKEY_TEAM_TIME_MULTIPLIER;
+        const movieStudioProfit =
+          (movieStudio * MOVIE_STUDIO_VALUE) / 
+          durationRatio / 
+          MOVIE_STUDIO_TIME_MULTIPLIER;
+        const bankProfit =
+          (bank * BANK_VALUE) / 
+          durationRatio / 
+          BANK_TIME_MULTIPLIER;
+        const oilCompanyProfit =
+          (oilCompany * OIL_COMPANY_VALUE) / 
+          durationRatio / 
+          OIL_COMPANY_TIME_MULTIPLIER;
 
-        return currentMoney + lemonadeProfit + newspaperProfit + carwashProfit + pizzadeliveryProfit + donutshopProfit;
+        return currentMoney + lemonadeProfit + newspaperProfit + carwashProfit + pizzadeliveryProfit + donutshopProfit + shrimpboatProfit + hockeyTeamProfit + movieStudioProfit + bankProfit + oilCompanyProfit;
       });
     }, gameSpeed);
 
@@ -122,6 +202,11 @@ export default function App() {
     carWashes,
     pizzaDelivery,
     donutShop,
+    shrimpBoat,
+    hockeyTeam,
+    movieStudio,
+    bank,
+    oilCompany,
   ]);
 
   const lemonadeStandCost =
@@ -140,19 +225,49 @@ export default function App() {
   CARWASH_COST * CARWASH_COEFFICIENT ** carWashes;
 
   const carwashesWorth = 
-  CARWASH_VALUE * CARWASH_COEFFICIENT ** carWashes
+  CARWASH_VALUE * CARWASH_COEFFICIENT ** carWashes;
 
   const pizzaDeliveryCost =
    PIZZA_DELIVERY_COST * PIZZA_DELIVERY_COEFFICIENT ** pizzaDelivery;
 
-   const pizzaDeliveryWorth =
-   PIZZA_DELIVERY_VALUE * PIZZA_DELIVERY_COEFFICIENT ** pizzaDelivery
+  const pizzaDeliveryWorth =
+   PIZZA_DELIVERY_VALUE * PIZZA_DELIVERY_COEFFICIENT ** pizzaDelivery;
 
   const donutShopCost = 
   DONUT_SHOP_COST * DONUT_SHOP_COEFFICIENT ** donutShop;
 
   const donutShopWorth =
-  DONUT_SHOP_VALUE * DONUT_SHOP_COEFFICIENT ** donutShop
+  DONUT_SHOP_VALUE * DONUT_SHOP_COEFFICIENT ** donutShop;
+
+  const shrimpBoatCost = 
+  SHRIMP_BOAT_COST * SHRIMP_BOAT_COEFFICIENT ** shrimpBoat;
+
+  const shrimpBoatWorth =
+  SHRIMP_BOAT_VALUE * SHRIMP_BOAT_COEFFICIENT ** shrimpBoat;
+
+  const hockeyTeamCost = 
+  HOCKEY_TEAM_COST * HOCKEY_TEAM_COEFFICIENT ** hockeyTeam;
+
+  const hockeyTeamWorth =
+ HOCKEY_TEAM_VALUE * HOCKEY_TEAM_COEFFICIENT ** hockeyTeam;
+
+  const movieStudioCost = 
+  MOVIE_STUDIO_COST * MOVIE_STUDIO_COEFFICIENT ** movieStudio;
+
+  const movieStudioWorth =
+ MOVIE_STUDIO_VALUE * MOVIE_STUDIO_COEFFICIENT ** movieStudio;
+
+  const bankCost = 
+  BANK_COST * BANK_COEFFICIENT ** bank;
+
+  const bankWorth =
+ BANK_VALUE * BANK_COEFFICIENT ** bank;
+
+  const oilCompanyCost = 
+  OIL_COMPANY_COST * OIL_COMPANY_COEFFICIENT ** oilCompany;
+
+  const oilCompanyWorth =
+ OIL_COMPANY_VALUE * OIL_COMPANY_COEFFICIENT ** oilCompany;
 
   return (
     <div className="flex flex-col gap-2 p-2 select-none">
@@ -162,6 +277,11 @@ export default function App() {
       <div>Car Washes: {carWashes}</div>
       <div>Pizza Delivery: {pizzaDelivery}</div>
       <div>Donut Shop: {donutShop}</div>
+      <div>Shrimp Boat: {shrimpBoat}</div>
+      <div>Shrimp Boat: {hockeyTeam}</div>
+      <div>Shrimp Boat: {movieStudio}</div>
+      <div>Shrimp Boat: {bank}</div>
+      <div>Shrimp Boat: {oilCompany}</div>
 
       <div className="flex flex-row gap-2">
         <FancyButton
@@ -256,6 +376,101 @@ export default function App() {
           }}
         >
           Buy Donut Shop £{prettyNumber(donutShopCost)}
+        </FancyButton>
+      </div>
+      <div className="flex flex-row gap-2">
+        <FancyButton
+          disabled={SHRIMP_BOAT_COST > money}
+          onClick={() => {
+            setMoney((money) => money + SHRIMP_BOAT_VALUE);
+          }}
+        >
+          Sell Shrimp Boat £{prettyNumber(shrimpBoatWorth)}
+        </FancyButton>
+        <FancyButton
+          disabled={shrimpBoatCost > money}
+          onClick={() => {
+            setMoney((money) => money - shrimpBoatCost);
+            setShrimpboat((stand) => stand + 1);
+          }}
+        >
+          Buy Shrimp Boat £{prettyNumber(shrimpBoatCost)}
+        </FancyButton>
+      </div>
+      <div className="flex flex-row gap-2">
+        <FancyButton
+          disabled={HOCKEY_TEAM_COST > money}
+          onClick={() => {
+            setMoney((money) => money + HOCKEY_TEAM_VALUE);
+          }}
+        >
+          Sell Hockey Team £{prettyNumber(hockeyTeamWorth)}
+        </FancyButton>
+        <FancyButton
+          disabled={hockeyTeamCost > money}
+          onClick={() => {
+            setMoney((money) => money - hockeyTeamCost);
+            setHockeyteam((stand) => stand + 1);
+          }}
+        >
+          Buy Hockey Team £{prettyNumber(hockeyTeamCost)}
+        </FancyButton>
+      </div>
+      <div className="flex flex-row gap-2">
+        <FancyButton
+          disabled={MOVIE_STUDIO_COST > money}
+          onClick={() => {
+            setMoney((money) => money + MOVIE_STUDIO_VALUE);
+          }}
+        >
+          Sell Movie Studio £{prettyNumber(movieStudioWorth)}
+        </FancyButton>
+        <FancyButton
+          disabled={movieStudioCost > money}
+          onClick={() => {
+            setMoney((money) => money - movieStudioCost);
+            setMoviestudio((stand) => stand + 1);
+          }}
+        >
+          Buy Movie Studio £{prettyNumber(movieStudioCost)}
+        </FancyButton>
+      </div>
+      <div className="flex flex-row gap-2">
+        <FancyButton
+          disabled={BANK_COST > money}
+          onClick={() => {
+            setMoney((money) => money + BANK_VALUE);
+          }}
+        >
+          Sell Bank £{prettyNumber(bankWorth)}
+        </FancyButton>
+        <FancyButton
+          disabled={bankCost > money}
+          onClick={() => {
+            setMoney((money) => money - bankCost);
+            setBank((stand) => stand + 1);
+          }}
+        >
+          Buy Bank £{prettyNumber(bankCost)}
+        </FancyButton>
+      </div>
+      <div className="flex flex-row gap-2">
+        <FancyButton
+          disabled={OIL_COMPANY_COST > money}
+          onClick={() => {
+            setMoney((money) => money + OIL_COMPANY_VALUE);
+          }}
+        >
+          Sell Oil Company £{prettyNumber(oilCompanyWorth)}
+        </FancyButton>
+        <FancyButton
+          disabled={oilCompanyCost > money}
+          onClick={() => {
+            setMoney((money) => money - oilCompanyCost);
+            setOilcompany((stand) => stand + 1);
+          }}
+        >
+          Buy Oil Company £{prettyNumber(oilCompanyCost)}
         </FancyButton>
       </div>
     </div>
